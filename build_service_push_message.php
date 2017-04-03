@@ -51,11 +51,19 @@ function shortenUrl($longUrl) {
 
 	$ch = curl_init();
 
+	$fields = array(
+		'token' => $apiToken,
+		'url' => $longUrl
+	);
+
 	$curlopts = array(
-		CURLOPT_RETURNTRANSFER => TRUE,
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_FOLLOWLOCATION => true,
 		CURLOPT_CONNECTTIMEOUT => 1,
+		CURLOPT_POSTFIELDS => http_build_query($fields),
 		CURLOPT_TIMEOUT => 2,
-		CURLOPT_URL => sprintf('%s/shorten?token=%s&url=%s', $apiUrl, $apiToken, urlencode($longUrl))
+		CURLOPT_POST => true,
+		CURLOPT_URL => $apiUrl
 	);
 	curl_setopt_array($ch, $curlopts);
 
