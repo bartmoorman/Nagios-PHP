@@ -2,8 +2,8 @@
 <?php
 $baseUrl = 'https://your.external.url/noauth';
 $apiToken = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-$shortopts = 'h:s:l:o:c:a:t:';
-$longopts = array('hostname:', 'hoststate:', 'datetime:', 'hostoutput:', 'notificationcomment:', 'notificationauthor:', 'contactalias:');
+$shortopts = 'h:s:l:o:c:a:t:v:';
+$longopts = array('hostname:', 'hoststate:', 'datetime:', 'hostoutput:', 'notificationcomment:', 'notificationauthor:', 'contactalias:', 'includelinks:');
 $options = getopt($shortopts, $longopts);
 
 foreach ($options as $k => $v) {
@@ -35,6 +35,10 @@ foreach ($options as $k => $v) {
 		case 't':
 		case 'contactalias':
 			$contactalias = $v;
+			break;
+		case 'v':
+		case 'includelinks':
+			$includelinks = $v;
 			break;
 	}
 }
@@ -83,7 +87,7 @@ if ($notificationcomment && $notificationauthor) {
 Comment: {$notificationcomment}
 Author: {$notificationauthor}
 EOM;
-} else {
+} elseif ($includelinks) {
 	$acknowledgeUrl	= shortenUrl(sprintf('%s/?cmd=39&host_name=%s&sticky=0&author=%s&comment=Problem acknowledged', $baseUrl, $hostname, $contactalias));
 	$availableUrl = shortenUrl(sprintf('%s/?cmd=134&host_name=%s&options=1&author=%s&comment=Available to help', $baseUrl, $hostname, $contactalias));
 	$unavailableUrl = shortenUrl(sprintf('%s/?cmd=134&host_name=%s&options=1&author=%s&comment=Currently unavailable', $baseUrl, $hostname, $contactalias));

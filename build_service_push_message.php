@@ -2,8 +2,8 @@
 <?php
 $baseUrl = 'https://your.external.url/noauth';
 $apiToken = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-$shortopts = 'h:d:s:l:o:c:a:t:';
-$longopts = array('hostname:', 'servicedesc:', 'servicestate:', 'datetime:', 'serviceoutput:', 'notificationcomment:', 'notificationauthor:', 'contactalias:');
+$shortopts = 'h:d:s:l:o:c:a:t:v:';
+$longopts = array('hostname:', 'servicedesc:', 'servicestate:', 'datetime:', 'serviceoutput:', 'notificationcomment:', 'notificationauthor:', 'contactalias:', 'includelinks:');
 $options = getopt($shortopts, $longopts);
 
 foreach ($options as $k => $v) {
@@ -39,6 +39,10 @@ foreach ($options as $k => $v) {
 		case 't':
 		case 'contactalias':
 			$contactalias = $v;
+			break;
+		case 'v':
+		case 'includelinks':
+			$includelinks = $v;
 			break;
 	}
 }
@@ -87,7 +91,7 @@ if ($notificationcomment && $notificationauthor) {
 Comment: {$notificationcomment}
 Author: {$notificationauthor}
 EOM;
-} else {
+} elseif ($includelinks) {
 	$acknowledgeUrl = shortenUrl(sprintf('%s/?cmd=40&host_name=%s&sticky=0&service_description=%s&author=%s&comment=Problem acknowledged', $baseUrl, $hostname, $servicedesc, $contactalias));
 	$availableUrl = shortenUrl(sprintf('%s/?cmd=135&host_name=%s&service_description=%s&options=1&author=%s&comment=Available to help', $baseUrl, $hostname, $servicedesc, $contactalias));
 	$unavailableUrl = shortenUrl(sprintf('%s/?cmd=135&host_name=%s&service_description=%s&options=1&author=%s&comment=Currently unavailable', $baseUrl, $hostname, $servicedesc, $contactalias));

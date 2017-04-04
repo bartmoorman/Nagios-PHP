@@ -2,8 +2,8 @@
 <?php
 $baseUrl = 'https://your.external.url/noauth';
 $apiToken = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-$shortopts = 'n:h:e:s:l:o:c:a:t:';
-$longopts = array('notificationtype:', 'hostname:', 'hostaddress:', 'hoststate:', 'datetime:', 'hostoutput:', 'notificationcomment:', 'notificationauthor:', 'contactalias:');
+$shortopts = 'n:h:e:s:l:o:c:a:t:v:';
+$longopts = array('notificationtype:', 'hostname:', 'hostaddress:', 'hoststate:', 'datetime:', 'hostoutput:', 'notificationcomment:', 'notificationauthor:', 'contactalias:', 'includelinks:');
 $options = getopt($shortopts, $longopts);
 
 foreach ($options as $k => $v) {
